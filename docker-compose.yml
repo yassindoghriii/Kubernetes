@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  node_app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql_db
+
+  mysql_db:
+    image: mysql:8.0  # Try upgrading to MySQL 8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: stockdb
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mysql_data:
